@@ -4,8 +4,43 @@
 
 const fs = require('fs');
 const path = require('path');
-
-
 // By using path.join(), we create paths of all file into this file and we can perform operatiions in all the file from here by using (FILE SYSTEM)
+function readTask(){
+    try{
 
-const taskjson = path.join(__dirname,"task.json");
+        //we connect the path using its current directory and by writing the file name
+        const datajson = path.join(__dirname,"data.json")
+
+        //check if file even exist or not, if not then create an empty array and then stringify it and then return the empty array
+        if(!fs.existsSync(datajson)){
+           fs.writeFileSync(datajson,JSON.stringify([],null,2),"utf8");
+           return [];
+        }
+
+        const data = fs.readFileSync(datajson,"utf8");
+        return data ? JSON.parse(data) : [];
+    }
+    catch(error){
+        return [];
+
+    }
+}
+//for write you will get the parameter from task file , as that thing only you have to write into task json file 
+function writeTask(data){
+
+    try{
+        fs.writeFileSync(datajson,JSON.stringify(data,null,2),"utf8")
+
+    }catch(error){
+    //   No need to perform any sort of logic here if foud errro just sty silent 
+    }
+
+}
+
+module.exports = {
+    readTask,
+    writeTask,
+
+}
+
+

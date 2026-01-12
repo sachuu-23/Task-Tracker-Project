@@ -1,0 +1,13 @@
+// The data being stored here is in json foramt.
+// It conatins:
+// Id, description, status, CreatedTime, UpdatedTime
+
+
+// This is how my json data will look like in my task json file , of each task containg id , des, status, createdAt , UpdatedAt.
+{
+    "id":1,
+    "description":"Code for 2 hours",
+    "status":"Done",
+    "CreatedTime":"3:40 am",
+    "UpdatedTime":"4:30 pm"
+}
