@@ -39,13 +39,51 @@ function addTask(description){
 
     return NewTask;
 }
-function mark_in_Progress(){
-    //first get all the task from taskjson file using readTask function
-    const ListTask = readTask();
+
+function UpdateTask(id){
+    const tasks = readTask();
+    const task = tasks.find((list)=>list.id === id);
+
+    if(!task) return null ;
+    task.description = description;
+    task.updateTime = new Date().toISOString();
+    task.color = COLOR.green.
+
+     writeTask(tasks);
+     return task;
 
 }
+function mark_in_Progress(id){
+    //first get all the task from taskjson file using readTask function
+    const Tasks= readTask();
+    const task = Tasks.find((t)=>t.id === id);
+    
 
-function mark_in_Done(){
+    if(!task) return null;
+    task.status  = STATUS.PROGRESS;
+    task.color = COLOR.yellow;
+
+    task.updateTime = new Date().toISOString();
+
+    writeTask(Tasks);
+    return task;
+    //this means it will show now the updated task that is now mark as in progress task ,and this will also get displayed on the screen of user CLI.
+}
+
+function mark_in_Done(id){
+    const Tasks = readTask();
+    const task = Tasks.find((list)=> list.id === id);
+
+    if(!task) return null;
+
+    task.status = STATUS.DONE;
+    task.color = COLOR.cyan;
+
+    task.updateTime = new Date().toISOString();
+
+    writeTask(Tasks);
+     return task;
+
 
 }
 function ListTask(status){
@@ -56,7 +94,13 @@ function ListTask(status){
 
     return ListAllTask.filter((t) =>t.status === status);//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
 }
-function DeleteTask(){
+function DeleteTask(id){
+    const tasks = readTask();
+    const updatedTask = tasks.filter((list)=>list.id !== id);
+    if(updatedTask.length() === tasks.length() ) return false;
+
+    writeTask(updatedTask);
+    return tasks;
 
 }
 module.exports = {
@@ -64,4 +108,6 @@ module.exports = {
     ListTask,
     DeleteTask,
     UpdateTask,
+    mark_in_Progress,
+    mark_in_Done,
 }
