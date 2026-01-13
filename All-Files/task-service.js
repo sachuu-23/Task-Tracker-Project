@@ -39,19 +39,29 @@ function addTask(description){
 
     return NewTask;
 }
-
-function ListTask(){
-
-    const ListAllTask = readTask();
+function mark_in_Progress(){
+    //first get all the task from taskjson file using readTask function
+    const ListTask = readTask();
 
 }
 
+function mark_in_Done(){
 
+}
+function ListTask(status){
+    // In list task get all the task from the database but send only that data which the user has requetsed for , based on the status we can understand that what the user is requesting for , like only done task, or in-progress task or just task , we need to handle alll the cases
+    const ListAllTask = readTask();
+    if(!status) return ListAllTask;//this means if there is no status given by the user then just return all the task list 
+    // Or else return the task which is asked for , so this is where we use array method called as filter whcih creates a new array and insert or selects only those elemnts which is asked for , so basically we can use when we want to get the list of a specific task.
 
-
+    return ListAllTask.filter((t) =>t.status === status);//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
+}
 function DeleteTask(){
 
 }
 module.exports = {
-    data,
+    addTask,
+    ListTask,
+    DeleteTask,
+    UpdateTask,
 }
