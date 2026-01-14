@@ -10,10 +10,9 @@
 const STATUS = {
     TODO:"todo",
     PROGRESS:"in-progress",
-    DONE:"done",
+    DONE:"Done!",
 
 };
-
 
 // To use this we will export it from this file and use in other file when required, by writing, COLOR.red -> Will give me red color message to be printed out, so we use ANSI color code when we want our todo data to be in color , when asked about the progress the progress must be in color , delete, done etc 
 const COLOR = {
