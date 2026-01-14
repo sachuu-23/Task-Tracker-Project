@@ -20,7 +20,8 @@ const {readTask , writeTask} = require('./file-service');
 function addTask(description){
        const currentTaskState = readTask();
        //here i wll get the list of all task and the last task of the list also 
-    const newId = currentTaskState.length()===0?1:currentTaskState[currentTaskState.length()- 1].id + 1;//means last task id , we get and then we append + 1 to that value like 10 + 1  = 11 which is now our new id value.
+    const newId = currentTaskState.length===0?1:currentTaskState[currentTaskState.length- 1].id + 1;
+    //means last task id , we get and then we append + 1 to that value like 10 + 1  = 11 which is now our new id value.
     // here we are creating the obejct of all the json data
     //from task service file we have to send the array to file servie file , writetask fuunction which will parse it into json and then write it in taskjson file 
 
@@ -28,16 +29,33 @@ function addTask(description){
    
         const NewTask = {
         "id" : newId,
-        "description":description ,
+         description ,
         "status" :STATUS.TODO,
         "color":COLOR.green,
         "createdTime":CurrentTime,
-        "updateTime":CurrentTime,
+        "updatedTime":CurrentTime,
     }
-    currentTaskState.push(data);
+    currentTaskState.push(NewTask);
     writeTask(currentTaskState);
 
-    return NewTask;
+    console.log("The task Has been added",NewTask);
+}
+function ListTask(status){
+    // In list task get all the task from the database but send only that data which the user has requetsed for , based on the status we can understand that what the user is requesting for , like only done task, or in-progress task or just task , we need to handle alll the cases
+    const ListAllTask = readTask();
+    if(!status) return ListAllTask;//this means if there is no status given by the user then just return all the task list 
+    // Or else return the task which is asked for , so this is where we use array method called as filter whcih creates a new array and insert or selects only those elemnts which is asked for , so basically we can use when we want to get the list of a specific task.
+
+    console.log("List of Task are",ListAllTask.filter((t) =>t.status === status));//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
+}
+function DeleteTask(id){
+    const tasks = readTask();
+    const updatedTask = tasks.filter((list)=>list.id !== id);
+    if(updatedTask.length() === tasks.length() ) return false;
+
+    writeTask(updatedTask);
+    console.log("Task Has been Deleted",updatedTask);
+
 }
 
 function UpdateTask(id){
@@ -45,12 +63,12 @@ function UpdateTask(id){
     const task = tasks.find((list)=>list.id === id);
 
     if(!task) return null ;
-    task.description = description;
-    task.updateTime = new Date().toISOString();
+    task.description = description;//here des is acting like a object vlaue , ok object value
+    task.updatedTime = new Date().toISOString();
     task.color = COLOR.green.
 
      writeTask(tasks);
-     return task;
+     console.log("The task has been Updated",task);
 
 }
 function mark_in_Progress(id){
@@ -63,10 +81,10 @@ function mark_in_Progress(id){
     task.status  = STATUS.PROGRESS;
     task.color = COLOR.yellow;
 
-    task.updateTime = new Date().toISOString();
+    task.updatedTime = new Date().toISOString();
 
     writeTask(Tasks);
-    return task;
+   console.log("Mark in progress Task is marked",task);
     //this means it will show now the updated task that is now mark as in progress task ,and this will also get displayed on the screen of user CLI.
 }
 
@@ -79,30 +97,12 @@ function mark_in_Done(id){
     task.status = STATUS.DONE;
     task.color = COLOR.cyan;
 
-    task.updateTime = new Date().toISOString();
+    task.updatedTime = new Date().toISOString();
 
     writeTask(Tasks);
-     return task;
-
-
+     console.log("Mark in Done is done",task);
 }
-function ListTask(status){
-    // In list task get all the task from the database but send only that data which the user has requetsed for , based on the status we can understand that what the user is requesting for , like only done task, or in-progress task or just task , we need to handle alll the cases
-    const ListAllTask = readTask();
-    if(!status) return ListAllTask;//this means if there is no status given by the user then just return all the task list 
-    // Or else return the task which is asked for , so this is where we use array method called as filter whcih creates a new array and insert or selects only those elemnts which is asked for , so basically we can use when we want to get the list of a specific task.
 
-    return ListAllTask.filter((t) =>t.status === status);//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
-}
-function DeleteTask(id){
-    const tasks = readTask();
-    const updatedTask = tasks.filter((list)=>list.id !== id);
-    if(updatedTask.length() === tasks.length() ) return false;
-
-    writeTask(updatedTask);
-    return tasks;
-
-}
 module.exports = {
     addTask,
     ListTask,

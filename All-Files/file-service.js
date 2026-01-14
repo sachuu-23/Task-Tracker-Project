@@ -26,16 +26,15 @@ function readTask(){
 
     }
 }
-
-
 //for write you will get the parameter from task file , as that thing only you have to write into task json file 
-function writeTask(NewTask){
+function writeTask(Tasks){
+    const dataJson = path.join(__dirname,"data.json");
 
     try{
-        fs.writeFileSync(datajson,JSON.stringify(NewTask,null,2),"utf8")
+        fs.writeFileSync(dataJson,JSON.stringify(Tasks,null,2),"utf8")
 
     }catch(error){
-    //   No need to perform any sort of logic here if foud errro just sty silent 
+    //   No need to perform any sort of logic here if foud error just sty silent 
     }
 
 }

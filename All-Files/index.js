@@ -1,5 +1,7 @@
 //this file is totally based on how do we perform task using our cli tools , and call diff operations to perform by  calling there function call.
 const taskfile = require('./task-service');
+const COLOR = require('./constants');
+const chalk = require('chalk');
 //here task file plays a role of object and theh functions which we export from other file act as a key , so if we want to access the function we will write it as taskfile.addTask()
 const Process = process.argv;
 const Command = Process.slice(2);//we extract an array containing the commands such as add "I will work", where it usually starts form index 2, so we slcie it as (2).
@@ -7,7 +9,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
 //Now command of 0 or 1 is "add" and "description or "id".
   switch(Command[0]) {//here command[0] means action which the user wants to take, add, delete, list, mark_in_progress etc 
     case "add" :
-        if(Command.length()<2){
+        if(Command.length<2){
             console.log("Please Enter The Description");
             process.exit(1);//process exit is a way to stop the program , if something get succeed we usually return as process.exit(0), which means success.1 indicates failure
         }
@@ -16,7 +18,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
      // as in update we are expecting two things the new description and the task , which we can get by id only 
      //Input -> node index.js update "I have to study "
       case "update":
-        if(Command.length()< 3){
+        if(Command.length< 3){
             console.log("Please Enter Description and Id if not Done");
             process.exit(1);
         }
@@ -26,8 +28,8 @@ const Command = Process.slice(2);//we extract an array containing the commands s
 
         // node index.js list or node index.js list Done , we can get two types of input here , so we do have to manage, just list, status list and incorrect out of bound list 
         case "list"://list 
-            if(Command.length()===1){
-                taskfile.UpdateTask(null);//here null indicates that no status is been passed to the update fucntoin in taskservice file,  
+            if(Command.length===1){
+                taskfile.ListTask(null);//here null indicates that no status is been passed to the update fucntoin in taskservice file,  
             }
             else if(!["in_progress","Done!","todo"].includes(Command[1])){
                 console.log("Please Enter a Valid Status, such as in_progress, Done!, todo");
@@ -42,7 +44,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
             break;
 
             case "delete":
-                if(Command.length()<2){
+                if(Command.length<2){
                     console.log("Required Condition Does Not Provide Id ");
                     process.exit(1);
                 }
@@ -53,7 +55,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
 
                 //in mark in progress means take any task from the list and send the status of in_progress to change the current status from todo or done to in_progress
                 case "mark-in-progress":
-                    if(Command.length()<2){
+                    if(Command.length<2){
                         console.log("Provide the required Id of the Task You want to update");
                         process.exit(1);
                     }
@@ -64,7 +66,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
 
 
                     case "mark-in-done":
-                    if(Command.length()<2){
+                    if(Command.length<2){
                         console.log("Please Enter an Id to Mark Task as Done!");
                         process.exit(1);
                     }
@@ -73,7 +75,7 @@ const Command = Process.slice(2);//we extract an array containing the commands s
 
                     break;
 
-                    case "help":
+                    case "helpss":
                         display_help();
                         break;
                         
@@ -90,7 +92,6 @@ const Command = Process.slice(2);//we extract an array containing the commands s
       console.log(`
         Usage : Task-Tracker  [Options]
 
-
         Options:
         help                              Shows help information
         add [description]                 To add task, provide task conatining description
@@ -101,8 +102,6 @@ const Command = Process.slice(2);//we extract an array containing the commands s
     
     }
 
-
-// User Input-> node index.js add "I have to eat food by 2 a.m"
 
 // [
 //     node -> 0,
