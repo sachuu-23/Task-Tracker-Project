@@ -5,7 +5,7 @@ const Process = process.argv;
 const Command = Process.slice(2);//we extract an array containing the commands such as add "I will work", where it usually starts form index 2, so we slcie it as (2).
 
 //Now command of 0 or 1 is "add" and "description or "id".
-switch(Command[0]) {//here command[0] means action which the user wants to take, add, delete, list, mark_in_progress etc 
+  switch(Command[0]) {//here command[0] means action which the user wants to take, add, delete, list, mark_in_progress etc 
     case "add" :
         if(Command.length()<2){
             console.log("Please Enter The Description");
@@ -84,31 +84,22 @@ switch(Command[0]) {//here command[0] means action which the user wants to take,
 
     }
 
+    function display_help(){
+          
+        //here we will write stuffs for , if the user need help of how to use cli for our project , the rules and evrything will be given, if user types , help or just even presses enter also , then this block of code executes at anu cost 
+      console.log(`
+        Usage : Task-Tracker  [Options]
+
+
+        Options:
+        help                              Shows help information
+        add [description]                 To add task, provide task conatining description
+        delete [id, description]          To delete task, provide task containing id and description
+        update [id, description]          To update task, provide task containing id and description      
+        
+        `);
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 // User Input-> node index.js add "I have to eat food by 2 a.m"
