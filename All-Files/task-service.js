@@ -43,10 +43,12 @@ function addTask(description){
 function ListTask(status){
     // In list task get all the task from the database but send only that data which the user has requetsed for , based on the status we can understand that what the user is requesting for , like only done task, or in-progress task or just task , we need to handle alll the cases
     const ListAllTask = readTask();
-    if(!status) return ListAllTask;//this means if there is no status given by the user then just return all the task list 
+    if(!status){
+        console.log(ListAllTask);//this means if there is no status given by the user then just return all the task list 
     // Or else return the task which is asked for , so this is where we use array method called as filter whcih creates a new array and insert or selects only those elemnts which is asked for , so basically we can use when we want to get the list of a specific task.
 
-    console.log("List of Task are",ListAllTask.filter((t) =>t.status === status));//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
+    return ListAllTask.filter((t) =>t.status === status);//it gets the status of all the task whcih contains the status which is being requested for,and then it is compared ,if it is same then it will  return a new array containig all the task of requested status
+}
 }
 function DeleteTask(id){
     const tasks = readTask();
@@ -89,13 +91,16 @@ function mark_in_Progress(id){
 }
 
 function mark_in_Done(id){
+    console.log("wait here");
     const Tasks = readTask();
-    const task = Tasks.find((list)=> list.id === id);
+    const task = Tasks.find((List)=> List.id === Number(id));
+    console.log("helloooo");
 
-    if(!task) return null;
+     console.log("hii");
+     if(!task) return null;
 
     task.status = STATUS.DONE;
-    task.color = COLOR.cyan;
+   
 
     task.updatedTime = new Date().toISOString();
 
